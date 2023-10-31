@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow name="getHealth" doc:id="7fdd6ea3-d3da-4232-982d-e35dd776aadb" >
+		<logger level="INFO" doc:name="Logger" doc:id="bde96beb-6368-4b7f-993c-6b6fb2342b34" />
+		<try doc:name="Try" doc:id="4be48faa-2533-4852-b4b5-c892e8567c58" >
+			<db:select doc:name="Select" doc:id="c39b1003-b079-426a-b41d-e03b43a78a7f" config-ref="Postgres_Database_Config">
+			<db:sql><![CDATA[select CURRENT_DATE]]></db:sql>
+		</db:select>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="99abf3ba-c951-4388-8601-161e138fbb5a" >
+					<set-variable value="#[[]]" doc:name="result" doc:id="c7b865c1-e170-413a-b217-7b2a6b0703f0" variableName="result"/>
+					<set-variable value="#[500]" doc:name="http status" doc:id="3dc524ce-12f5-4af2-9c2c-3a8294314604" variableName="httpStatus"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="Transform Message" doc:id="9f82cf58-4fb6-4a9e-8501-701a93eb890e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	status: "running",
+	timestamp: now() as Date
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="09139408-cdce-4626-8ab2-d856acdc090f" />
+	</flow>
+	<flow name="getBusinesses" doc:id="3160cfba-2362-4a0e-9141-dac46ce34d14" >
+		<logger level="INFO" doc:name="Logger" doc:id="a331069b-d6e6-4576-bf58-88f33cdf73ff" />
+		<db:select doc:name="Select" doc:id="aa221158-076e-4595-9864-51a066603757" config-ref="Postgres_Database_Config">
+			<db:sql ><![CDATA[select * from business]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="bc00fedc-fc1a-4ca4-a4d8-48fb874e762c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map {
+	id: $.id,
+	OrganizationName: $.organization_name,
+	address: $.address,
+	city: $.city,
+	state: $.state,
+	country: $.country,
+	zip: $.zip,
+	phoneNumber: $.phone_number,
+	revenue: $.revenue,
+	createdDate: $.created_date,
+	notes: $.notes
+	}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="612b68e7-8844-4f31-86b6-7a8fe2ab6934" />
+	</flow>
+</mule>

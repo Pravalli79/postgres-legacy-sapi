@@ -1,0 +1,10 @@
+running-on-db-connection:
+  mocks-db-connection: ""
+  mocks-sf-error: ""
+  assert-http-status: "200"
+  
+not-running-on-db-connection:
+  mocks-db-connection: ""
+  mocks-sf-error: "DB:CONNECTIVITY"
+  assert-http-status: "500"
+  

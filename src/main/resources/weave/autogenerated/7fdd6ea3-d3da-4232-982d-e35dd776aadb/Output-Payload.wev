@@ -1,0 +1,8 @@
+%dw 2.0
+
+type auto_7fdd6ea3_d3da_4232_982d_e35dd776aadb_Output_Payload = {
+  timeStamp: String, 
+  status: "running" | "not running", 
+  _?: Any
+}
+
