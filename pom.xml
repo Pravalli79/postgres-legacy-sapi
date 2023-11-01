@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>30cfc3b2-f56b-4391-a360-5b51a8f68ed9</groupId>
 			<artifactId>orgs-legacy-sapi</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.2</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>
@@ -121,6 +121,13 @@
 			<artifactId>assertions</artifactId>
 			<version>1.0.2</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mycompany</groupId>
+			<artifactId>postgres-domain</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<classifier>mule-domain</classifier>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

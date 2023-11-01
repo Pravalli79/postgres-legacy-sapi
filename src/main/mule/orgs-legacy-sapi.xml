@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-    <http:listener-config name="orgs-legacy-sapi-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8081" />
-    </http:listener-config>
-    <apikit:config name="orgs-legacy-sapi-config" api="resource::30cfc3b2-f56b-4391-a360-5b51a8f68ed9:orgs-legacy-sapi:1.0.0:raml:zip:orgs-legacy-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="orgs-legacy-sapi-main">
-        <http:listener config-ref="orgs-legacy-sapi-httpListenerConfig" path="/api/*">
+        <http:listener path="/api/v1/orgs-legacy-sapi/*" config-ref="postgres_HTTP_Listener_config">
             <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body>#[payload]</http:body>
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
         <apikit:router config-ref="orgs-legacy-sapi-config" />
@@ -97,13 +93,13 @@ output application/json
         </error-handler>
     </flow>
     <flow name="orgs-legacy-sapi-console">
-        <http:listener config-ref="orgs-legacy-sapi-httpListenerConfig" path="/console/*">
+        <http:listener path="/console/*" config-ref="postgres_HTTP_Listener_config">
             <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
             <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body>#[payload]</http:body>
-                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
         <apikit:console config-ref="orgs-legacy-sapi-config" />
@@ -124,9 +120,9 @@ output application/json
         </error-handler>
     </flow>
     <flow name="get:\businesses:orgs-legacy-sapi-config">
-        <flow-ref doc:name="businesses" doc:id="1a375a42-b8fd-4ccb-9a16-103fcbae0915" name="getBusinesses"/>
+        <flow-ref doc:name="businesses" doc:id="1a375a42-b8fd-4ccb-9a16-103fcbae0915" name="getBusinesses" />
     </flow>
     <flow name="get:\health:orgs-legacy-sapi-config">
-        <flow-ref doc:name="health" doc:id="091aaeb9-9619-4ba4-91bc-bd6820fa6886" name="getHealth"/>
+        <flow-ref doc:name="health" doc:id="091aaeb9-9619-4ba4-91bc-bd6820fa6886" name="getHealth" />
     </flow>
 </mule>
