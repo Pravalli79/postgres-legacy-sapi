@@ -3,9 +3,6 @@
     <db:config name="Postgres_Database_Config" doc:name="Database Config" doc:id="85c9211f-5c6b-496d-99a8-249301dde239">
         <db:generic-connection url="jdbc:postgresql://localhost:5432/postgres" driverClassName="org.postgresql.Driver" user="postgres" password="password" />
     </db:config>
-    <api-gateway:autodiscovery apiId="19080543" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="ff7f5c59-fe09-4127-a52c-497c9a3fc580" flowRef="orgs-legacy-sapi-main" />
-    <apikit:config name="orgs-legacy-sapi-config" api="resource::30cfc3b2-f56b-4391-a360-5b51a8f68ed9:orgs-legacy-sapi:1.0.2:raml:zip:orgs-legacy-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-    <http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="99cb3e03-2293-4550-af94-102dbb1f802e">
-        <http:listener-connection host="0.0.0.0" port="8084" />
-    </http:listener-config>
+    <api-gateway:autodiscovery apiId="19081009" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="ff7f5c59-fe09-4127-a52c-497c9a3fc580" flowRef="orgs-legacy-sapi-main" />
+    <apikit:config name="orgs-legacy-sapi-config" api="resource::30cfc3b2-f56b-4391-a360-5b51a8f68ed9:orgs-legacy-sapi:1.0.3:raml:zip:orgs-legacy-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 </mule>

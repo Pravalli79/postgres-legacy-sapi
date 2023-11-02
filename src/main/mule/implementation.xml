@@ -34,7 +34,11 @@ output application/json
 	<flow name="getBusinesses" doc:id="3160cfba-2362-4a0e-9141-dac46ce34d14" >
 		<logger level="INFO" doc:name="Logger" doc:id="a331069b-d6e6-4576-bf58-88f33cdf73ff" />
 		<db:select doc:name="Select" doc:id="aa221158-076e-4595-9864-51a066603757" config-ref="Postgres_Database_Config">
-			<db:sql ><![CDATA[select * from business]]></db:sql>
+			<db:sql ><![CDATA[select * from business limit :limit offset :offset]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{ 
+	"limit": attributes.queryParams.limit default 50,
+	"offset": attributes.queryParams.offset default 0
+	}]]]></db:input-parameters>
 		</db:select>
 		<ee:transform doc:name="Transform Message" doc:id="bc00fedc-fc1a-4ca4-a4d8-48fb874e762c" >
 			<ee:message >
@@ -59,4 +63,39 @@ payload map {
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="612b68e7-8844-4f31-86b6-7a8fe2ab6934" />
 	</flow>
+<!-- [STUDIO:"implementationFlow"]	<flow name="implementationFlow" doc:id="a46a1f71-7877-443d-b2d7-f3bb4e1db436" >
+		<ee:transform doc:name="Transform Message" doc:id="e0689a64-8e1e-4386-af70-7e4be502e686" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="pageAttributes" ><![CDATA[%dw 2.0
+output application/java
+var params = attributes.queryParams
+&#45;&#45;-
+{
+	offset: ((params.page default 1 - 1) *(params.limit default 0)),
+	limit: params.offset default 50,
+	page: params.page default 1
+}&#93;&#93;></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<db:select doc:name="Select" doc:id="018e6488-bb7a-4eb4-a3d4-18c478af8060" config-ref="Postgres_Database_Config">
+			<db:sql ><![CDATA[select * from business limit :limit, :offset&#93;&#93;></db:sql>
+			<db:input-parameters ><![CDATA[#[vars.pageAttributes&#93;&#93;&#93;></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="87d7d706-c198-4455-a2ed-5f27a193b81c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+&#45;&#45;-
+{
+	recordsCount: 50,
+	page: vars.pageAttributes.page,
+	recordsPerPage: vars.pageAttributes.limit,
+	offset: vars.pageAttributes.offset,
+	result: payload
+}&#93;&#93;></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow> [STUDIO] -->
 </mule>
