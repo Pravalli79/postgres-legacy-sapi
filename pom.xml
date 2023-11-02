@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>30cfc3b2-f56b-4391-a360-5b51a8f68ed9</groupId>
 			<artifactId>orgs-legacy-sapi</artifactId>
-			<version>1.0.3</version>
+			<version>1.0.5</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>

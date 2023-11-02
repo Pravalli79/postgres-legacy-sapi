@@ -4,5 +4,5 @@
         <db:generic-connection url="jdbc:postgresql://localhost:5432/postgres" driverClassName="org.postgresql.Driver" user="postgres" password="password" />
     </db:config>
     <api-gateway:autodiscovery apiId="19081009" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="ff7f5c59-fe09-4127-a52c-497c9a3fc580" flowRef="orgs-legacy-sapi-main" />
-    <apikit:config name="orgs-legacy-sapi-config" api="resource::30cfc3b2-f56b-4391-a360-5b51a8f68ed9:orgs-legacy-sapi:1.0.3:raml:zip:orgs-legacy-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="orgs-legacy-sapi-config" api="resource::30cfc3b2-f56b-4391-a360-5b51a8f68ed9:orgs-legacy-sapi:1.0.5:raml:zip:orgs-legacy-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 </mule>
